@@ -312,6 +312,7 @@ server {
 	root /var/www/html/;
 	ssl_protocols TLSv1.2 TLSv1.3;
 	ssl_ciphers HIGH:!aNULL:!eNULL:!MD5:!DES:!RC4:!ADH:!SSLv3:!EXP:!PSK:!DSS;
+        ssl_ecdh_curve secp521r1:secp384r1:secp256r1:x25519;
 	ssl_certificate /etc/letsencrypt/live/$MainDomain/fullchain.pem;
 	ssl_certificate_key /etc/letsencrypt/live/$MainDomain/privkey.pem;
 	if (\$host !~* ^(.+\.)?$MainDomain\$ ){return 444;}
@@ -321,6 +322,7 @@ server {
 	if (\$request_uri ~ "(\"|'|\`|~|,|:|--|;|%|\\$|&&|\?\?|0x00|0X00|\||\\|\{|\}|\[|\]|<|>|\.\.\.|\.\.\/|\/\/\/)"){set \$hack 1;}
 	error_page 400 402 403 500 501 502 503 504 =404 /404;
 	proxy_intercept_errors on;
+        add_header Alt-Svc 'h3=":443"; ma=86400';
 	#X-UI Admin Panel
 	location $RNDSTR {
 		${Secure}auth_basic "Restricted Access";
@@ -362,6 +364,15 @@ server {
 		proxy_pass http://127.0.0.1:\$fwdport/json/\$fwdpath\$is_args\$args;
 		break;
 	}
+        #XHTTP
+        location ~ ^/(?<fwdport>\d+)/(?<fwdpath>.*)$ {
+            client_max_body_size 0;
+            grpc_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+            client_body_timeout 5m;
+            grpc_read_timeout 315;
+            grpc_send_timeout 5m;
+            grpc_pass grpc://127.0.0.1:$fwdport;
+        }
 	#Xray Config Path
 	location ~ ^/(?<fwdport>\d+)/(?<fwdpath>.*)\$ {
 		if (\$hack = 1) {return 404;}
