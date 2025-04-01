@@ -365,13 +365,10 @@ server {
 		break;
 	}
         #XHTTP
-        location ~ ^/(?<fwdport>\d+)/(?<fwdpath>.*)$ {
-            client_max_body_size 0;
-            grpc_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-            client_body_timeout 5m;
-            grpc_read_timeout 315;
-            grpc_send_timeout 5m;
-            grpc_pass grpc://127.0.0.1:$fwdport;
+        location ~ ^/(?<fwdport>\d+)/(.+)$ {
+                grpc_set_header Host $host;
+                grpc_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+                grpc_pass grpc://127.0.0.1:$fwdport;
         }
 	#Xray Config Path
 	location ~ ^/(?<fwdport>\d+)/(?<fwdpath>.*)\$ {
