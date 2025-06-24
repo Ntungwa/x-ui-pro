@@ -331,6 +331,7 @@ server {
 	if (\$request_uri ~ "(\"|'|\`|~|,|:|--|;|%|\\$|&&|\?\?|0x00|0X00|\||\\|\{|\}|\[|\]|<|>|\.\.\.|\.\.\/|\/\/\/)"){set \$hack 1;}
 	error_page 400 402 403 500 501 502 503 504 =404 /404;
 	proxy_intercept_errors on;
+ 	add_header Alt-Svc 'h3=":443"; ma=86400';
 	#X-UI Admin Panel
 	location $RNDSTR {
 		${Secure}auth_basic "Restricted Access";
