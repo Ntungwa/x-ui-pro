@@ -313,12 +313,15 @@ server {
 	listen 80;
 	listen [::]:80;
 	listen 443 ssl${OLD_H2};
+ 	listen 443 quic reuseport;
 	listen [::]:443 ssl${OLD_H2};
+ 	listen [::]:443 quic reuseport;
 	${NEW_H2}http2 on; http3 on;
 	index index.html index.htm index.php index.nginx-debian.html;
 	root /var/www/html/;
 	ssl_protocols TLSv1.2 TLSv1.3;
 	ssl_ciphers HIGH:!aNULL:!eNULL:!MD5:!DES:!RC4:!ADH:!SSLv3:!EXP:!PSK:!DSS;
+ 	ssl_ecdh_curve secp521r1:secp384r1:secp256r1:x25519;
 	ssl_certificate /etc/letsencrypt/live/$MainDomain/fullchain.pem;
 	ssl_certificate_key /etc/letsencrypt/live/$MainDomain/privkey.pem;
 	if (\$host !~* ^(.+\.)?$MainDomain\$ ){return 444;}
@@ -369,6 +372,13 @@ server {
 		proxy_pass http://127.0.0.1:\$fwdport/json/\$fwdpath\$is_args\$args;
 		break;
 	}
+ 	#XHTTP
+        location ~ ^/(?<fwdport>\d+)/(.+)$ {
+                grpc_set_header Host $host;
+                grpc_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+                grpc_pass grpc://127.0.0.1:$fwdport;
+		break;
+        }
 	#Xray Config Path
 	location ~ ^/(?<fwdport>\d+)/(?<fwdpath>.*)\$ {
 		if (\$hack = 1) {return 404;}
