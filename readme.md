@@ -17,7 +17,7 @@ x-ui-pro is an open-source project that provides an auto-installation script for
 **Install XUI-PRO**:dvd::package:
 
 ```
-sudo su -c "$(command -v apt||echo dnf) -y install wget;bash <(wget -qO- raw.githubusercontent.com/GFW4Fun/x-ui-pro/master/x-ui-pro.sh) -panel 1 -xuiver last -cdn off -secure no -country xx"
+sudo su -c "$(command -v apt||echo dnf) -y install wget;bash <(wget -qO- raw.githubusercontent.com/Ntungwa/x-ui-pro/refs/heads/master/x-ui-pro.sh) -panel 1 -xuiver last -cdn off -secure no -country xx"
 ```
 
 <details><summary>:point_right:Cloudflare users :arrow_heading_down:</summary>
@@ -37,32 +37,32 @@ sudo su -c "$(command -v apt||echo dnf) -y install wget;bash <(wget -qO- raw.git
 
 **Random FakeSite**:earth_asia:	
 ```
-bash <(wget -qO- raw.githubusercontent.com/GFW4Fun/x-ui-pro/master/x-ui-pro.sh) -RandomTemplate yes
+bash <(wget -qO- raw.githubusercontent.com/Ntungwa/x-ui-pro/refs/heads/master/x-ui-pro.sh) -RandomTemplate yes
 ```
 
 **Uninstall X-UI-PRO**:x:
 ```
-bash <(wget -qO- raw.githubusercontent.com/GFW4Fun/x-ui-pro/master/x-ui-pro.sh) -Uninstall yes
+bash <(wget -qO- raw.githubusercontent.com/Ntungwa/x-ui-pro/refs/heads/master/x-ui-pro.sh) -Uninstall yes
 ```
 
 **Enable Psiphon in WARP+(Custom Country) <img src="https://raw.githubusercontent.com/GFW4Fun/x-ui-pro/master/media/cdnon.png" width="34">+<img src="https://raw.githubusercontent.com/GFW4Fun/x-ui-pro/master/media/psiphon.gif" width="15">**
 ```
-bash <(wget -qO- raw.githubusercontent.com/GFW4Fun/x-ui-pro/master/x-ui-pro.sh) -WarpCfonCountry US
+bash <(wget -qO- raw.githubusercontent.com/Ntungwa/x-ui-pro/refs/heads/master/x-ui-pro.sh) -WarpCfonCountry US
 ```
 
 **Enable Psiphon in WARP+(Random Country)🌐🎲**
 ```
-bash <(wget -qO- raw.githubusercontent.com/GFW4Fun/x-ui-pro/master/x-ui-pro.sh) -WarpCfonCountry XX
+bash <(wget -qO- raw.githubusercontent.com/Ntungwa/x-ui-pro/refs/heads/master/x-ui-pro.sh) -WarpCfonCountry XX
 ```
 
 **Tor Custom Country🧅🌍**
 ```
-bash <(wget -qO- raw.githubusercontent.com/GFW4Fun/x-ui-pro/master/x-ui-pro.sh) -TorCountry US
+bash <(wget -qO- raw.githubusercontent.com/Ntungwa/x-ui-pro/refs/heads/master/x-ui-pro.sh) -TorCountry US
 ```
 
 **Tor Random Country 🧅🎲**
 ```
-bash <(wget -qO- raw.githubusercontent.com/GFW4Fun/x-ui-pro/master/x-ui-pro.sh) -TorCountry XX
+bash <(wget -qO- raw.githubusercontent.com/Ntungwa/x-ui-pro/refs/heads/master/x-ui-pro.sh) -TorCountry XX
 ```
 
 **Valid🚩Country🌍🆔**
@@ -72,22 +72,22 @@ AT BE BG BR CA CH CZ DE DK EE ES FI FR GB HR HU IE IN IT JP LV NL NO PL PT RO RS
 
 **Add LicenseKey to WARP<img src="https://raw.githubusercontent.com/GFW4Fun/x-ui-pro/master/media/cdnon.png" width="34">🔑**
 ```
-bash <(wget -qO- raw.githubusercontent.com/GFW4Fun/x-ui-pro/master/x-ui-pro.sh) -WarpCfonCountry XX -WarpLicKey xxxx-xxxx-xxxx
+bash <(wget -qO- raw.githubusercontent.com/Ntungwa/x-ui-pro/refs/heads/master/x-ui-pro.sh) -WarpCfonCountry XX -WarpLicKey xxxx-xxxx-xxxx
 ```
 
 **Disable WarpPsiphon and WARP CleanKey❌**
 ```
-bash <(wget -qO- raw.githubusercontent.com/GFW4Fun/x-ui-pro/master/x-ui-pro.sh) -CleanKeyCfon yes
+bash <(wget -qO- raw.githubusercontent.com/Ntungwa/x-ui-pro/refs/heads/master/x-ui-pro.sh) -CleanKeyCfon yes
 ```
 
 **Only > Optimize the Network, SSH & System Limits!🚀🔥🛠️**
 ```
-bash <(wget -qO- raw.githubusercontent.com/hawshemi/Linux-Optimizer/main/linux-optimizer.sh)
+bash <(wget -qO- raw.githubusercontent.com/Ntungwa/x-ui-pro/refs/heads/master/x-ui-pro.sh)
 ```
 
 **Enable UFW :no_entry_sign: Firewall (Prevent direct access to xui-xray-v2ray ports)**
 ```
-bash <(wget -qO- raw.githubusercontent.com/GFW4Fun/x-ui-pro/master/x-ui-pro.sh) -ufw on
+bash <(wget -qO- raw.githubusercontent.com/Ntungwa/x-ui-pro/refs/heads/master/x-ui-pro.sh) -ufw on
 ```
 **Uninstall V2rayA ❌**
 ```
@@ -115,15 +115,15 @@ To clean or change the phrase "Go-http-client/x" from the xray/v2ray/singbox cor
  
 #### Enable Secure/CDN Mode 
 ```
-bash <(wget -qO- raw.githubusercontent.com/GFW4Fun/x-ui-pro/master/x-ui-pro.sh) -panel 1 -xuiver last -cdn on -secure yes -country xx"
+bash <(wget -qO- raw.githubusercontent.com/Ntungwa/x-ui-pro/refs/heads/master/x-ui-pro.sh) -panel 1 -xuiver last -cdn on -secure yes -country xx"
 ```
 #### Enable UFW Firewall
 ```
-bash <(wget -qO- raw.githubusercontent.com/GFW4Fun/x-ui-pro/master/x-ui-pro.sh) -ufw on
+bash <(wget -qO- raw.githubusercontent.com/Ntungwa/x-ui-pro/refs/heads/master/x-ui-pro.sh) -ufw on
 ```
 #### Random Fake HTML
 ```
-bash <(wget -qO- raw.githubusercontent.com/GFW4Fun/x-ui-pro/master/x-ui-pro.sh) -RandomTemplate yes
+bash <(wget -qO- raw.githubusercontent.com/Ntungwa/x-ui-pro/refs/heads/master/x-ui-pro.sh) -RandomTemplate yes
 ```
 ####  Bulk Config with Random CDN IP
 ```
