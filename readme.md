@@ -111,7 +111,7 @@ Secure mode works only with [GFW-knocker/Xray-core](https://github.com/GFW-knock
 To clean or change the phrase "Go-http-client/x" from the xray/v2ray/singbox core.
 </details>
 
-<details><summary>:point_right:Secure mode! :arrow_heading_down:</summary>
+<details><summary>:point_right:Install XUI-PRO [Secure mode] :arrow_heading_down:</summary>
  
 #### Enable Secure/CDN Mode 
 ```
@@ -133,6 +133,10 @@ https://gfw4fun.github.io/xray_bulk_config_with_random_cdn_ip_range/
 ```
 {"servers": ["https://8.8.8.8/dns-query","https://9.9.9.9/dns-query"]}
 ```
+#### Enable v2ray Fragment (core basic settings)
+[Xray Json Config Fragment](https://misaturo.github.io/Xray-Fragment-Configurator/)
+
+
 Secure mode works only with [GFW-knocker/Xray-core](https://github.com/GFW-knocker/Xray-core) / [GFW-knocker/MahsaNG](https://github.com/GFW-knocker/MahsaNG) on the client side.
 
 The above points are highly recommended. Always use port 443 and enable TLS.
@@ -141,7 +145,7 @@ The above points are highly recommended. Always use port 443 and enable TLS.
 <img src="https://raw.githubusercontent.com/GFW4Fun/x-ui-pro/master/media/hr.png" width="100%">
 
 ### Server Configuration :wrench:🐧⚙️
-![](https://raw.githubusercontent.com/GFW4Fun/x-ui-pro/master/media/Config_XUI_ADMIN_4.jpg)
+![](https://raw.githubusercontent.com/GFW4Fun/x-ui-pro/master/media/Config_XUI_ADMIN_5.jpg)
 ![](https://raw.githubusercontent.com/GFW4Fun/x-ui-pro/master/media/grpc_config_format.jpg)
 ### Client Configuration 👨‍💻📱✏️
 ![](https://raw.githubusercontent.com/GFW4Fun/x-ui-pro/master/media/XUI_CONFIG_XRAY_CLIENT_EDIT2.png)

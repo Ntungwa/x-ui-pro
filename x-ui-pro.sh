@@ -1,5 +1,5 @@
 #!/bin/bash
-#################### x-ui-pro v11.9.3 @ github.com/GFW4Fun ##############################################
+#################### x-ui-pro v12.0.1 @ github.com/GFW4Fun ##############################################
 [[ $EUID -ne 0 ]] && { echo "not root!"; exec sudo "$0" "$@"; }
 msg()     { echo -e "\e[1;37;40m $1 \e[0m";}
 msg_ok()  { echo -e "\e[1;32;40m $1 \e[0m";}
@@ -14,7 +14,7 @@ msg_inf ' _/   \_ |_____| __|__     |       |     \_ |_____|';
 hrline
 ##################################Random Port and Path ###################################################
 mkdir -p ${HOME}/.cache
-Pak=$(command -v apt||echo dnf);
+Pak=$(command -v apt || command -v dnf); Pak=${Pak:-apt}
 gen_str() { l=$((RANDOM%7+6)); LC_CTYPE=C tr -dc 'A-Za-z0-9' < /dev/urandom | head -c $l; }
 RNDSTR=$(gen_str)
 RNDSTR2=$(gen_str)
@@ -138,12 +138,11 @@ fi
 fi
 ##############################Uninstall##################################################################
 if [[ "${UNINSTALL}" == *"y"* ]]; then
-	echo "python3-certbot-nginx nginx nginx-full nginx-core nginx-common nginx-extras tor" | xargs -n 1 $Pak -y remove
+	echo "nginx nginx-full nginx-core nginx-common nginx-extras tor" | xargs -n 1 $Pak -y remove
 	for service in nginx tor x-ui warp-plus v2raya xray; do
 		systemctl stop "$service" > /dev/null 2>&1
 		systemctl disable "$service" > /dev/null 2>&1
 	done
-	#bash -c "$(curl -L https://github.com/XTLS/Xray-install/raw/main/install-release.sh)" @ remove --purge
  	printf 'n' | bash <(wget -qO- https://github.com/v2rayA/v2rayA-installer/raw/main/uninstaller.sh) 
  	rm -rf /etc/warp-plus/ /etc/nginx/sites-enabled/*
 	crontab -l | grep -v "nginx\|systemctl\|x-ui\|v2ray" | crontab -	
@@ -164,12 +163,13 @@ if [[ "${SubDomain}.${MainDomain}" != "${domain}" ]] ; then
 	MainDomain=${domain}
 fi
 ###############################Install Packages#########################################################
-$Pak -y purge sqlite
-$Pak -y purge sqlite3
-$Pak -y update
-for pkg in epel-release cronie psmisc unzip curl nginx nginx-full certbot python3-certbot-nginx sqlite sqlite3 jq openssl tor tor-geoipdb; do
-  dpkg -l "$pkg" &> /dev/null || rpm -q "$pkg" &> /dev/null || $Pak -y install "$pkg"
+sudo $Pak -y purge sqlite sqlite3 python3-certbot-nginx 2>/dev/null || true
+[[ $Pak == *apt ]]&&sudo apt update||sudo dnf makecache
+
+for p in epel-release cronie psmisc unzip curl nginx nginx-full python3 certbot python3-certbot-nginx sqlite sqlite3 jq openssl tor tor-geoipdb;do
+  (command -v dpkg&>/dev/null && dpkg -l $p&>/dev/null)||(rpm -q $p&>/dev/null)||sudo $Pak -y install $p
 done
+
 service_enable "nginx" "tor" "cron" "crond"
 ############################### Get nginx Ver and Stop ##################################################
 vercompare() { 
@@ -269,6 +269,7 @@ sudo /usr/local/x-ui/x-ui setting -username "$XUIUSER" -password "$XUIPASS"
 ###################################Install X-UI#########################################################
 if ! systemctl is-active --quiet x-ui || ! command -v x-ui &> /dev/null; then
 	[[ "$PNLNUM" =~ ^[0-3]+$ ]] || PNLNUM=1	
+	grep -qi '^ID=fedora' /etc/os-release 2>/dev/null && PNLNUM=3
  	VERSION=$(echo "$VERSION" | tr -d '[:space:]')
 	if [[ -z "$VERSION" || "$VERSION" != *.* ]]; then VERSION="master"
 	else [[ $PNLNUM == "1" ]] && VERSION="v${VERSION#v}" || VERSION="${VERSION#v}" ; fi	
@@ -459,14 +460,13 @@ Restart=on-abort
 WantedBy=multi-user.target
 EOF
 ##########################################Install v2ray-core + v2rayA-webui#############################
-#bash -c "$(curl -L https://github.com/XTLS/Xray-install/raw/main/install-release.sh)" @ install
 sudo sh -c "$(wget -qO- https://github.com/v2rayA/v2rayA-installer/raw/main/installer.sh)" @ --with-xray
 service_enable "v2raya" "warp-plus"
 ######################cronjob for ssl/reload service/cloudflareips######################################
 tasks=(
   "0 0 * * * sudo su -c 'x-ui restart > /dev/null 2>&1 && systemctl reload v2raya warp-plus tor'"
   "0 0 * * * sudo su -c 'nginx -s reload 2>&1 | grep -q error && { pkill nginx || killall nginx; nginx -c /etc/nginx/nginx.conf; nginx -s reload; }'"
-  "0 0 1 * * sudo su -c 'certbot renew --nginx --force-renewal --non-interactive --post-hook \"nginx -s reload\" > /dev/null 2>&1'"
+  "0 0 1 * * sudo su -c 'certbot renew --nginx --force-renewal --non-interactive --post-hook \"nginx -s reload\"' >> /var/log/certbot_renew.log 2>&1"
   "* * * * * sudo su -c '[[ \"\$(curl -s --socks5-hostname 127.0.0.1:8086 checkip.amazonaws.com)\" =~ ^((([0-9]{1,3}\.){3}[0-9]{1,3})|(([0-9a-fA-F]{1,4}:){7}[0-9a-fA-F]{1,4}))\$ ]] || systemctl restart warp-plus'"
   "0 0 * * 0 sudo bash /etc/nginx/cloudflareips.sh > /dev/null 2>&1"
 )
