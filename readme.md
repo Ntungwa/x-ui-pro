@@ -6,6 +6,7 @@ x-ui-pro is an open-source project that provides an auto-installation script for
 - Install multiple domains with one a server/panel
 - More security and low detection with nginx
 - Auto SSL Renew, Reload Daily Services
+- Auto Daily backups x-ui.db to /var/backups
 - X-UI Xray / V2rayA  Admin Web Panel
 - Compatible with Cloudflare CDN/IP
 - Random 170 fake HTML template!
@@ -134,7 +135,17 @@ https://gfw4fun.github.io/xray_bulk_config_with_random_cdn_ip_range/
 {"servers": ["https://8.8.8.8/dns-query","https://9.9.9.9/dns-query"]}
 ```
 #### Enable v2ray Fragment (core basic settings)
-[Xray Json Config Fragment](https://misaturo.github.io/Xray-Fragment-Configurator/)
+```
+https://misaturo.github.io/Xray-Fragment-Configurator/
+```
+#### Disable ICMP 
+```
+sudo sysctl -w net.ipv4.icmp_echo_ignore_all=1 net.ipv6.icmp.echo_ignore_all=1 && sudo sysctl -p &>/dev/null
+```
+#### Secure SSH (Change Port 22 to Custome Port)
+```
+sudo bash -c 'read -p "Enter new SSH port: " port && sed -i "s/^#Port 22/Port $port/" /etc/ssh/sshd_config && ufw allow ${port}/tcp && systemctl restart sshd'
+```
 
 
 Secure mode works only with [GFW-knocker/Xray-core](https://github.com/GFW-knocker/Xray-core) / [GFW-knocker/MahsaNG](https://github.com/GFW-knocker/MahsaNG) on the client side.

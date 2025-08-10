@@ -1,5 +1,5 @@
 #!/bin/bash
-#################### x-ui-pro v12.0.1 @ github.com/GFW4Fun ##############################################
+#################### x-ui-pro v12.0.4 @ github.com/GFW4Fun ##############################################
 [[ $EUID -ne 0 ]] && { echo "not root!"; exec sudo "$0" "$@"; }
 msg()     { echo -e "\e[1;37;40m $1 \e[0m";}
 msg_ok()  { echo -e "\e[1;32;40m $1 \e[0m";}
@@ -162,6 +162,10 @@ MainDomain=$(echo "$domain" 2>&1 | sed 's/.*\.\([^.]*\..*\)$/\1/')
 if [[ "${SubDomain}.${MainDomain}" != "${domain}" ]] ; then
 	MainDomain=${domain}
 fi
+###########################################Fix VPS#######################################################
+sudo bash -c 'c=$(grep -c "^nameserver" /etc/resolv.conf); for d in 8.8.8.8 1.1.1.1; do grep -q "^nameserver $d" /etc/resolv.conf || { [ $c -lt 3 ] && echo "nameserver $d" >> /etc/resolv.conf && c=$((c+1)); }; done'
+
+sudo bash -c 'type apt&&{ apt update&&apt install -y build-essential; }||type dnf&&{ dnf groupinstall -y "Development Tools"; }||type yum&&{ yum groupinstall -y "Development Tools"; }||type pacman&&{ pacman -Sy --noconfirm base-devel; }'
 ###############################Install Packages#########################################################
 sudo $Pak -y purge sqlite sqlite3 python3-certbot-nginx 2>/dev/null || true
 [[ $Pak == *apt ]]&&sudo apt update||sudo dnf makecache
@@ -469,6 +473,7 @@ tasks=(
   "0 0 1 * * sudo su -c 'certbot renew --nginx --force-renewal --non-interactive --post-hook \"nginx -s reload\"' >> /var/log/certbot_renew.log 2>&1"
   "* * * * * sudo su -c '[[ \"\$(curl -s --socks5-hostname 127.0.0.1:8086 checkip.amazonaws.com)\" =~ ^((([0-9]{1,3}\.){3}[0-9]{1,3})|(([0-9a-fA-F]{1,4}:){7}[0-9a-fA-F]{1,4}))\$ ]] || systemctl restart warp-plus'"
   "0 0 * * 0 sudo bash /etc/nginx/cloudflareips.sh > /dev/null 2>&1"
+  "0 2 * * * mkdir -p /var/backups && cp /etc/x-ui/x-ui.db /var/backups/x-ui.db.$(date +\%F-\%H-\%M-\%S) && find /var/backups -name \"x-ui.db.*\" -mtime +7 -delete"
 )
 crontab -l | grep -qE "x-ui" || { printf "%s\n" "${tasks[@]}" | crontab -; }
 ##################################Show Details##########################################################
